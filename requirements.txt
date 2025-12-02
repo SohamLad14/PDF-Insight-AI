@@ -7,3 +7,5 @@ langchain_community
 pypdf
 streamlit
 python-dotenv
+langchain-huggingface
+PyPDF2
