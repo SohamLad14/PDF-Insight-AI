@@ -17,11 +17,11 @@ python-multipart
 
 # LangChain Core
 langchain
-langchain_core
-langchain_community
-langchain_openai
+langchain-core
+langchain-community
+langchain-openai
 langchain-huggingface
-langchain_chroma
+langchain-chroma
 
 # Embeddings + Vector DB
 sentence-transformers
