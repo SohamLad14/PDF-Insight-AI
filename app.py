@@ -2,7 +2,8 @@ import streamlit as st
 import requests
 import uuid
 
-API_URL = "http://localhost:8000"
+# API_URL = "http://localhost:8000"
+API_URL = "https://pdf-insight-ai.onrender.com"
 
 st.set_page_config(page_title="PDF Insight", layout="wide")
 
