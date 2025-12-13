@@ -6,10 +6,14 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
 from config import settings, logger
+from dotenv import load_dotenv
+import os 
+
+load_dotenv()
 
 # Initialize Model
 try:
-    model = ChatGoogleGenerativeAI(model=settings.MODEL_NAME)
+    model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
     parser = StrOutputParser()
 except Exception as e:
     logger.error(f"Failed to initialize Google GenAI model: {e}")
