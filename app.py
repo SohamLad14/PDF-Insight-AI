@@ -1,9 +1,9 @@
 import streamlit as st
 import requests
 import uuid
+from config import settings
 
-# API_URL = "http://localhost:8000"
-API_URL = "https://pdf-insight-ai.onrender.com"
+API_URL = settings.API_URL
 
 st.set_page_config(page_title="PDF Insight", layout="wide")
 
@@ -29,15 +29,24 @@ with st.sidebar:
             files = [("files", (f.name, f, "application/pdf")) for f in uploaded_files]
 
             with st.spinner("Creating vector database..."):
-                response = requests.post(f"{API_URL}/upload", files=files)
-
-            st.success(response.json()["message"])
+                try:
+                    response = requests.post(
+                        f"{API_URL}/upload", 
+                        files=files,
+                        data={"session_id": st.session_state.session_id}
+                    )
+                    if response.status_code == 200:
+                        st.success(response.json()["message"])
+                    else:
+                        st.error(f"Error: {response.text}")
+                except Exception as e:
+                    st.error(f"Connection Error: {e}")
 
     st.markdown("---")
     st.write("Made with ❤️ using FastAPI + Streamlit + LangChain By SOHAM LAD")
 
 
-st.title("📄 PDF Insight RAG",width="stretch")
+st.title("📄 PDF Insight RAG")
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -55,14 +64,20 @@ if query:
 
     # send to FastAPI
     with st.spinner("Thinking..."):
-        response = requests.post(
-            f"{API_URL}/ask",
-            json={
-                "session_id": st.session_state.session_id,
-                "question": query
-            }
-        )
-        answer = response.json().get("answer", "Error: No answer returned")
+        try:
+            response = requests.post(
+                f"{API_URL}/ask",
+                json={
+                    "session_id": st.session_state.session_id,
+                    "question": query
+                }
+            )
+            if response.status_code == 200:
+                answer = response.json().get("answer", "Error: No answer returned")
+            else:
+                answer = f"Error: {response.text}"
+        except Exception as e:
+            answer = f"Connection Error: {e}"
 
     # show bot message
     st.chat_message("assistant").markdown(answer)

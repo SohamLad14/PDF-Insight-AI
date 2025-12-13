@@ -1,0 +1,7 @@
+__pycache__
+venv
+.env
+.git
+.gitignore
+render.yaml
+faiss_index
