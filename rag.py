@@ -13,7 +13,7 @@ load_dotenv()
 
 # Initialize Model
 try:
-    model = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
+    model = ChatGoogleGenerativeAI(model=settings.MODEL_NAME)
     parser = StrOutputParser()
 except Exception as e:
     logger.error(f"Failed to initialize Google GenAI model: {e}")
